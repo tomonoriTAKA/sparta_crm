@@ -1,5 +1,6 @@
 class CustomersController < ApplicationController
   before_action :set_customer,only:[:show, :edit ,:update, :destroy]
+  before_action :authenticate_user!
   def index
     @q = Customer.search(params[:q])
     @customers = @q.result.page(params[:page])
@@ -30,6 +31,8 @@ class CustomersController < ApplicationController
   end
 
   def show
+    @comment = Comment.new
+    @comments = @customer.comments
   end
 
   def destroy
